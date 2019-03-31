@@ -7,9 +7,15 @@ public class JobInfo implements Comparable<JobInfo> {
     private int arrivalTime;
     /** How long will this job run? */
     private int duration;
-
     /** How long has this job run so far? */
     private int timeRun;
+    /** When did this job finish? */
+    private int completion;
+    /** When did this job last run */
+    private int lastRun;
+    /** The number of tickets this job owns*/
+    private int weight;
+
 
     /**
      * Construct a new job specification:
@@ -19,6 +25,7 @@ public class JobInfo implements Comparable<JobInfo> {
         this.arrivalTime = arrivalTime;
         this.duration = duration;
         this.timeRun = 0;
+        this.completion = 0;
     }
     
     /** Get the name of this job. */
@@ -63,6 +70,46 @@ public class JobInfo implements Comparable<JobInfo> {
     public int getDuration() {
         return duration;
     }
+
+    /**
+     * Time the job has run
+     * @return the timeRun
+     */
+    public int getTimeRun(){ return timeRun;}
+
+    /**
+     * When a job finishes, set completion time.
+     */
+    public void setCompletion(int now){completion = now;}
+
+    /**
+     * When a job finished
+     * @return completion
+     */
+    public int getTurnaround() {return completion - arrivalTime;}
+
+    /**
+     * Set the latest runtime
+     */
+    public void setLastRun(int now) {lastRun = now;}
+
+    /**
+     * Get the last time the job was run
+     * @return lastRun
+     */
+    public int getLastRun(){return lastRun;}
+
+    /**
+     * Set the weight
+     */
+    public void setWeight(int tix){weight = tix;}
+
+    /**
+     * Get the weight
+     * @return weight
+     */
+
+    public int getWeight(){return weight;}
 
     /**
      * Order by arrival time and then by name!

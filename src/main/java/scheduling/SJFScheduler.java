@@ -1,5 +1,6 @@
 package scheduling;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,16 +21,7 @@ public class SJFScheduler extends Scheduler {
      */
     @Override
     public JobInfo chooseJob(List<JobInfo> current) {
-        JobInfo min = current.get(0);
-        for (JobInfo j : current) {
-            if (j.getDuration() < min.getDuration()) {
-                min = j;
-            } else if (j.getDuration() == min.getDuration()) {
-                if (j.getName().compareTo(min.getName()) < 0) {
-                    min = j;
-                }
-            }
-        }
-        return min;
+        Collections.sort(current, new ByDuration());
+        return current.get(0);
     }
 }

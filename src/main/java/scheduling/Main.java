@@ -63,7 +63,10 @@ public class Main {
     // Create a scheduler.
     for (Scheduler sched : Arrays.asList(
       new FIFOScheduler(jobs),
-      new SJFScheduler(jobs)
+      new SJFScheduler(jobs),
+      new STCFScheduler(jobs),
+      new RRScheduler(jobs),
+      new LottoScheduler(jobs)
     )) {
       sched.run();
       sched.printStats(sched.getClass().getSimpleName());

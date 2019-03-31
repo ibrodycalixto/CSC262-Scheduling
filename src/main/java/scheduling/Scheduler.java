@@ -13,10 +13,14 @@ public abstract class Scheduler {
     /** What jobs have run at each timestep? */
     private List<String> time;
 
+    /** Array of Turnaround Times */
+    private List<Integer> turnaround;
+
     /** What time is it? */
     public int getTime() {
         return this.time.size();
     }
+
 
     /**
      * @param jobs the list of job information from the file.
@@ -28,6 +32,7 @@ public abstract class Scheduler {
         for (JobInfo j : jobs) {
             this.jobs.add(j.copy());
         }
+        this.turnaround = new ArrayList<>();
     }
 
     /**
@@ -67,6 +72,11 @@ public abstract class Scheduler {
             JobInfo job = chooseJob(jobsAvailableNow());
             time.add(job.getName());
             job.runSingleStep();
+            job.setLastRun(this.getTime());
+            if (job.hasFinished()){
+                job.setCompletion(this.getTime());
+                turnaround.add(job.getTurnaround());
+            }
         }
     }
 
@@ -77,5 +87,10 @@ public abstract class Scheduler {
             sb.append(name);
         }
         System.out.println("Timeline(" + schedulerName + "): "+sb);
+        int totTurn = 0;
+        for (int i : turnaround){
+            totTurn = totTurn + i;
+        }
+        System.out.println("Average Turnaround Time: " + (totTurn/jobs.size()));
     }
 }
