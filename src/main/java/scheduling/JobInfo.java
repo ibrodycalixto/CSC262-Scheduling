@@ -14,18 +14,29 @@ public class JobInfo implements Comparable<JobInfo> {
     /** When did this job last run */
     private int lastRun;
     /** The number of tickets this job owns*/
-    private int weight;
+    private double weight;
+    /**index of the job**/
+    private int index;
+    /**current CPU**/
+    private String CPU;
 
+
+//@Override
+//public String toString() {
+    //return "JobInfo("+name+", "+lastRun+", "+duration+", tr="+timeRun+", "+hasFinished()+")";
+//}
 
     /**
      * Construct a new job specification:
      */
-    public JobInfo(String name, int arrivalTime, int duration) {
+    public JobInfo(String name, int arrivalTime, int duration, String CPU) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.duration = duration;
         this.timeRun = 0;
         this.completion = 0;
+        this.index = -1;
+        this.CPU = CPU;
     }
     
     /** Get the name of this job. */
@@ -37,7 +48,7 @@ public class JobInfo implements Comparable<JobInfo> {
      * Copy this job, ignoring "timeRun!"
      */
     public JobInfo copy() {
-        return new JobInfo(this.name, this.arrivalTime, this.duration);
+        return new JobInfo(this.name, this.arrivalTime, this.duration, this.CPU);
     }
 
     /** Has the job arrived at time "now"? */
@@ -102,18 +113,28 @@ public class JobInfo implements Comparable<JobInfo> {
     /**
      * Set the weight
      */
-    public void setWeight(int tix){weight = tix;}
+    public void setWeight(double tix){weight = tix;}
 
     /**
      * Get the weight
      * @return weight
      */
 
-    public int getWeight(){return weight;}
+    public double getWeight(){return weight;}
 
     /**
-     * Order by arrival time and then by name!
+     * Set the index
      */
+    public void setIndex(int q){index = q;}
+
+    /**
+     * Get the index
+     * @return index
+     */
+    public int getIndex(){return index;}
+
+
+
     @Override
     public int compareTo(JobInfo o) {
         int byArrival = Integer.compare(this.arrivalTime, o.arrivalTime);

@@ -49,7 +49,7 @@ public abstract class Scheduler {
     }
 
     /** A scheduler is done when all jobs are done. */
-    private boolean isDone() {
+    protected boolean isDone() {
         for (JobInfo job : this.jobs) {
             // If any job is not done, the answer is no.
             if (!job.hasFinished()) {
@@ -69,13 +69,14 @@ public abstract class Scheduler {
     /** Loop until all jobs have "finished" choosing a job to run next. */
     public void run() {
         while(!isDone()) {
-            JobInfo job = chooseJob(jobsAvailableNow());
-            time.add(job.getName());
-            job.runSingleStep();
-            job.setLastRun(this.getTime());
-            if (job.hasFinished()){
-                job.setCompletion(this.getTime());
-                turnaround.add(job.getTurnaround());
+            List<JobInfo> jobs  = jobsAvailableNow();
+                JobInfo job = chooseJob(jobs);
+                time.add(job.getName());
+                job.runSingleStep();
+                job.setLastRun(this.getTime());
+                if (job.hasFinished()) {
+                    job.setCompletion(this.getTime());
+                    turnaround.add(job.getTurnaround());
             }
         }
     }
